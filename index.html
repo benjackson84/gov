@@ -1,0 +1,39 @@
+<html>
+<head>
+	<title>List all Gov API endpoints</title>
+	<script src="jquery.js"></script>
+	<script>
+	// List all packages example
+	$(document).ready(function(){
+		$('#examples').append('<li id="list"><a href="#">List all packages</a></li>');
+		$('#list').click(function(e) {
+			e.preventDefault();
+			$.ajax({
+				url: 'http://data.gov.uk/api/rest/package',
+				type: 'GET',
+				success: function(data){
+					render_results(data);
+				},
+				error: function() {
+					alert('Failed to get the list of packages.')
+				},
+				dataType: 'jsonp',
+				jsonpCallback: 'jsonpcallback'
+			});
+		});
+	});
+	// Render a list of packages to the results <div>
+
+	var render_results = function (packages) {
+		$('#result').html('<ul id="packages"></ul>');
+		for (var i=0; i<packages.length; i++) {
+			$('#packages').append('<li>'+packages[i]+'</li>');
+		}
+	};
+</script>
+</head>
+<body>
+	<div id="examples"></div>
+	<div id="result"></div>
+</body>
+</html>
